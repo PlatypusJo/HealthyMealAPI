@@ -1,0 +1,6 @@
+@HealthyMealAPI_HostAddress = http://localhost:5191
+
+GET {{HealthyMealAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
