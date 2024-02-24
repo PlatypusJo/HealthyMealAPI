@@ -7,21 +7,19 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public partial class NutritionalValue
+    public partial class Menu
     {
         [Key]
         public string Id { get; set; } = null!;
-        public string FoodId { get; set; } = null!;
-        public string UnitsId { get; set; } = null!;
+        public string UserId { get; set; } = null!;
+        public DateTime Date { get; set; }
         public double Kcal { get; set; }
         public double Proteins { get; set; }
         public double Fats { get; set; }
         public double Carbohydrates { get; set; }
-        public double UnitsAmount { get; set; }
-        public bool IsDefault { get; set; }
 
-        public virtual Food Food { get; set; } = null!;
-        public virtual Units Units { get; set; } = null!;
-        public virtual ICollection<Meal> Meals { get; } = new List<Meal>();
+        public virtual AppUser User { get; set; } = null!;
+        public virtual ICollection<MenuString> MenuStrings { get; } = new List<MenuString>();
+        public virtual ICollection<MenuTemplate> MenuTemplates { get; } = new List<MenuTemplate>();
     }
 }

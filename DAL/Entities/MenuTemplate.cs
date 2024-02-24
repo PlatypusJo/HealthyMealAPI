@@ -7,14 +7,13 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public partial class MealType
+    public partial class MenuTemplate
     {
         [Key]
         public string Id { get; set; } = null!;
+        public string MenuId { get; set; } = null!;
         public string Name { get; set; } = null!;
 
-        public virtual ICollection<Meal> Meals { get; } = new List<Meal>();
-        public virtual ICollection<Recipe> Recipes { get; } = new List<Recipe>();
-        public virtual ICollection<MenuString> MenuStrings { get; } = new List<MenuString>();
+        public Menu Menu { get; set; } = null!;
     }
 }

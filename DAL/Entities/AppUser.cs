@@ -9,9 +9,19 @@ namespace DAL.Entities
 {
     public partial class AppUser : IdentityUser
     {
-        public double KcalGoal { get; set; }
-        public double NormalKcal { get; set; }
+        public double KcalAmountGoal { get; set; }
+        public double NormalKcalAmount { get; set; }
+        public int Age { get; set; }
+        public double Weight { get; set; }
+        public double Height { get; set; }
+        
 
+        public virtual Sex Sex { get; set; } = null!;
+        public virtual PhysicalActivity PhysicalActivity { get; set; } = null!;
         public virtual ICollection<Meal> Meals { get; } = new List<Meal>();
+        public virtual ICollection<Product> Products { get; } = new List<Product>();
+        public virtual ICollection<Recipe> Recipes { get; } = new List<Recipe>();
+        public virtual ICollection<ProductToBuy> ProductsToBuy { get; } = new List<ProductToBuy>();
+        public virtual ICollection<Menu> Menus { get; } = new List<Menu>();
     }
 }
