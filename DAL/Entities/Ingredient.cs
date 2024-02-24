@@ -14,7 +14,7 @@ namespace DAL.Entities
         public string ProductId { get; set; } = null!;
         public string RecipeId { get; set; } = null!;
         public string UnitsId { get; set; } = null!;
-        public double Amount { get; set; }
+        public double UnitsAmount { get; set; }
 
         public virtual Recipe Recipe { get; set; } = null!;
         public virtual Product Product { get; set; } = null!;
