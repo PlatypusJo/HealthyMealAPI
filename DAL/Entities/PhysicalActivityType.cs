@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public partial class PhysicalActivity
+    public partial class PhysicalActivityType
     {
         [Key]
         public string Id { get; set; } = null!;
         public string Name { get; set; } = null!;
+        public string Description { get; set; } = null!;
         public double Value { get; set; }
 
         public virtual ICollection<AppUser> Users { get; } = new List<AppUser>();

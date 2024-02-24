@@ -19,7 +19,7 @@ namespace DAL.Entities
         public TimeSpan CookingTime { get; set; }
         public string Description { get; set; } = null!;
 
-        public virtual AppUser User { get; set; } = null!;
+        public virtual AppUser AppUser { get; set; } = null!;
         public virtual Food Food { get; set; } = null!;
         public virtual MealType MealType { get; set; } = null!;
         public virtual ICollection<CookingStep> CookingSteps { get; } = new List<CookingStep>();

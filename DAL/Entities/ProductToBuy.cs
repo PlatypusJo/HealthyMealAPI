@@ -18,7 +18,7 @@ namespace DAL.Entities
         public DateTime Date { get; set; }
         public bool IsBought { get; set; }
 
-        public virtual AppUser User { get; set; } = null!;
+        public virtual AppUser AppUser { get; set; } = null!;
         public virtual Product Product { get; set; } = null!;
         public virtual Units Units { get; set; } = null!;
     }

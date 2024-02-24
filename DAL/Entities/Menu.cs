@@ -18,7 +18,7 @@ namespace DAL.Entities
         public double Fats { get; set; }
         public double Carbohydrates { get; set; }
 
-        public virtual AppUser User { get; set; } = null!;
+        public virtual AppUser AppUser { get; set; } = null!;
         public virtual ICollection<MenuString> MenuStrings { get; } = new List<MenuString>();
         public virtual ICollection<MenuTemplate> MenuTemplates { get; } = new List<MenuTemplate>();
     }

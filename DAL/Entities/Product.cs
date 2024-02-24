@@ -17,7 +17,7 @@ namespace DAL.Entities
         public byte[]? Image { get; set; }
         public string Description { get; set; } = null!;
 
-        public virtual AppUser User { get; set; } = null!;
+        public virtual AppUser AppUser { get; set; } = null!;
         public virtual Food Food { get; set; } = null!;
         public virtual ICollection<ProductToBuy> ProductsToBuy { get; } = new List<ProductToBuy>();
         public virtual ICollection<Ingredient> Ingredients { get; } = new List<Ingredient>();
