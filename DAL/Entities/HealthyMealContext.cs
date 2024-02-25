@@ -13,15 +13,13 @@ namespace DAL.Entities
     public partial class HealthyMealContext : IdentityDbContext<AppUser>
     {
 
+        protected readonly IConfiguration _configuration;
+
         #region Constructors
 
-        public HealthyMealContext()
+        public HealthyMealContext(IConfiguration configuration)
         {
-        }
-
-        public HealthyMealContext(DbContextOptions<HealthyMealContext> options)
-            : base(options)
-        {
+            _configuration = configuration;
         }
 
         #endregion
@@ -66,11 +64,7 @@ namespace DAL.Entities
         {
             try
             {
-                var configuration = new ConfigurationBuilder()
-                        .AddJsonFile("appsettings.json")
-                        .SetBasePath(Directory.GetCurrentDirectory())
-                        .Build();
-                optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
             }
             catch
             {
