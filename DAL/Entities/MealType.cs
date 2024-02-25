@@ -12,6 +12,7 @@ namespace DAL.Entities
         [Key]
         public string Id { get; set; } = null!;
         public string Name { get; set; } = null!;
+        public byte[]? Icon { get; set; }
 
         public virtual ICollection<Meal> Meals { get; } = new List<Meal>();
         public virtual ICollection<Recipe> Recipes { get; } = new List<Recipe>();

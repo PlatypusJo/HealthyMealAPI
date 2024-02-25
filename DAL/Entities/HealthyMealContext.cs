@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,9 @@ namespace DAL.Entities
 {
     public partial class HealthyMealContext : IdentityDbContext<AppUser>
     {
+
+        #region Constructors
+
         public HealthyMealContext()
         {
         }
@@ -18,6 +23,8 @@ namespace DAL.Entities
             : base(options)
         {
         }
+
+        #endregion
 
         #region DbSets
 
@@ -53,7 +60,23 @@ namespace DAL.Entities
 
         #endregion
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer("Server=DESKTOP-CN8UQ7K;Database=HealthyMealDb;Trusted_Connection=True;Encrypt=False;");
+        #region Setting Configuration
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
+        {
+            try
+            {
+                var configuration = new ConfigurationBuilder()
+                        .AddJsonFile("appsettings.json")
+                        .SetBasePath(Directory.GetCurrentDirectory())
+                        .Build();
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            }
+            catch
+            {
+                throw new Exception("Db server ins't working");
+            }
+        } 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -451,5 +474,8 @@ namespace DAL.Entities
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        #endregion
+
     }
 }
