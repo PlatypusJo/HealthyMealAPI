@@ -24,5 +24,6 @@ namespace DAL.Entities
         public virtual ICollection<Recipe> Recipes { get; } = new List<Recipe>();
         public virtual ICollection<ProductToBuy> ProductsToBuy { get; } = new List<ProductToBuy>();
         public virtual ICollection<Menu> Menus { get; } = new List<Menu>();
+        public virtual ICollection<MenuTemplate> MenuTemplates { get; } = new List<MenuTemplate>();
     }
 }

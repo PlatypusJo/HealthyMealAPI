@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(HealthyMealContext))]
-    [Migration("20240225112420_EditDbContext")]
-    partial class EditDbContext
+    [Migration("20240228191432_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -352,9 +352,15 @@ namespace DAL.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(500)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MenuId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("MenuTemplates", (string)null);
                 });
@@ -865,6 +871,14 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_MenuTemplate_Menu");
 
+                    b.HasOne("DAL.Entities.AppUser", "AppUser")
+                        .WithMany("MenuTemplates")
+                        .HasForeignKey("UserId")
+                        .IsRequired()
+                        .HasConstraintName("FK_MenuTemplate_AppUser");
+
+                    b.Navigation("AppUser");
+
                     b.Navigation("Menu");
                 });
 
@@ -1014,6 +1028,8 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.AppUser", b =>
                 {
                     b.Navigation("Meals");
+
+                    b.Navigation("MenuTemplates");
 
                     b.Navigation("Menus");
 

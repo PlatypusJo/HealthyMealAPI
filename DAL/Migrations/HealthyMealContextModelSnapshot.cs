@@ -349,9 +349,15 @@ namespace DAL.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(500)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MenuId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("MenuTemplates", (string)null);
                 });
@@ -862,6 +868,14 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_MenuTemplate_Menu");
 
+                    b.HasOne("DAL.Entities.AppUser", "AppUser")
+                        .WithMany("MenuTemplates")
+                        .HasForeignKey("UserId")
+                        .IsRequired()
+                        .HasConstraintName("FK_MenuTemplate_AppUser");
+
+                    b.Navigation("AppUser");
+
                     b.Navigation("Menu");
                 });
 
@@ -1011,6 +1025,8 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.AppUser", b =>
                 {
                     b.Navigation("Meals");
+
+                    b.Navigation("MenuTemplates");
 
                     b.Navigation("Menus");
 

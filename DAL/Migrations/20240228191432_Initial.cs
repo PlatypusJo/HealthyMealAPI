@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class AllEntitiesCreated : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -41,7 +41,8 @@ namespace DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
-                    Name = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false)
+                    Name = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
+                    Icon = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -55,7 +56,7 @@ namespace DAL.Migrations
                     Id = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
                     Name = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: false),
-                    Value = table.Column<double>(type: "float", nullable: false)
+                    CoeffValue = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -381,11 +382,17 @@ namespace DAL.Migrations
                 {
                     Id = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
                     MenuId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
+                    UserId = table.Column<string>(type: "varchar(450)", nullable: false),
                     Name = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MenuTemplates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MenuTemplate_AppUser",
+                        column: x => x.UserId,
+                        principalTable: "AppUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_MenuTemplate_Menu",
                         column: x => x.MenuId,
@@ -452,7 +459,7 @@ namespace DAL.Migrations
                     ProductId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
                     RecipeId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
                     UnitsId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
-                    Amount = table.Column<double>(type: "float", nullable: false)
+                    UnitsAmount = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -611,6 +618,11 @@ namespace DAL.Migrations
                 name: "IX_MenuTemplates_MenuId",
                 table: "MenuTemplates",
                 column: "MenuId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MenuTemplates_UserId",
+                table: "MenuTemplates",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_NutritionalValues_FoodId",

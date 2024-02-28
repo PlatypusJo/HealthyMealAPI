@@ -435,6 +435,11 @@ namespace DAL.Entities
                     .HasForeignKey(d => d.MenuId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MenuTemplate_Menu");
+
+                entity.HasOne(d => d.AppUser).WithMany(p => p.MenuTemplates)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MenuTemplate_AppUser");
             });
 
             modelBuilder.Entity<AppUser>(entity =>
