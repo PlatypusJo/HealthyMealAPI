@@ -9,6 +9,7 @@ namespace DAL.Entities
 {
     public partial class AppUser : IdentityUser
     {
+        public string Login { get; set; } = null!;
         public double KcalAmountGoal { get; set; }
         public double NormalKcalAmount { get; set; }
         public byte[]? Image { get; set; }

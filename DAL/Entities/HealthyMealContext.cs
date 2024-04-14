@@ -406,6 +406,10 @@ namespace DAL.Entities
                     .HasMaxLength(450)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Login)
+                    .HasMaxLength(256)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.SexId)
                     .HasMaxLength(450)
                     .IsUnicode(false);
