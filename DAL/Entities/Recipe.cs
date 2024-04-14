@@ -14,10 +14,7 @@ namespace DAL.Entities
         public string FoodId { get; set; } = null!;
         public string UserId { get; set; } = null!;
         public string MealTypeId { get; set; } = null!;
-        public string Name { get; set; } = null!;
-        public byte[]? Image { get; set; }
         public TimeSpan CookingTime { get; set; }
-        public string Description { get; set; } = null!;
 
         public virtual AppUser AppUser { get; set; } = null!;
         public virtual Food Food { get; set; } = null!;

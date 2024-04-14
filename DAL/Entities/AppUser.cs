@@ -11,6 +11,7 @@ namespace DAL.Entities
     {
         public double KcalAmountGoal { get; set; }
         public double NormalKcalAmount { get; set; }
+        public byte[]? Image { get; set; }
         public int Age { get; set; }
         public double Weight { get; set; }
         public double Height { get; set; }
@@ -20,10 +21,9 @@ namespace DAL.Entities
         public virtual Sex Sex { get; set; } = null!;
         public virtual PhysicalActivityType PhysicalActivity { get; set; } = null!;
         public virtual ICollection<Meal> Meals { get; } = new List<Meal>();
-        public virtual ICollection<Product> Products { get; } = new List<Product>();
+        public virtual ICollection<Food> Foods { get; } = new List<Food>();
         public virtual ICollection<Recipe> Recipes { get; } = new List<Recipe>();
         public virtual ICollection<ProductToBuy> ProductsToBuy { get; } = new List<ProductToBuy>();
         public virtual ICollection<Menu> Menus { get; } = new List<Menu>();
-        public virtual ICollection<MenuTemplate> MenuTemplates { get; } = new List<MenuTemplate>();
     }
 }

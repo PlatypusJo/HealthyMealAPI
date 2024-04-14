@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class EditedDBscheme : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,17 +23,6 @@ namespace DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Foods",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Foods", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -56,7 +45,7 @@ namespace DAL.Migrations
                     Id = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
                     Name = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: false),
-                    CoeffValue = table.Column<double>(type: "float", nullable: false)
+                    ActivityFactor = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -115,6 +104,7 @@ namespace DAL.Migrations
                     Id = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
                     KcalAmountGoal = table.Column<double>(type: "float", nullable: false),
                     NormalKcalAmount = table.Column<double>(type: "float", nullable: false),
+                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     Age = table.Column<int>(type: "int", nullable: false),
                     Weight = table.Column<double>(type: "float", nullable: false),
                     Height = table.Column<double>(type: "float", nullable: false),
@@ -147,35 +137,6 @@ namespace DAL.Migrations
                         name: "FK_AppUser_Sex",
                         column: x => x.SexId,
                         principalTable: "Sexes",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "NutritionalValues",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
-                    FoodId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
-                    UnitsId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
-                    Kcal = table.Column<double>(type: "float", nullable: false),
-                    Proteins = table.Column<double>(type: "float", nullable: false),
-                    Fats = table.Column<double>(type: "float", nullable: false),
-                    Carbohydrates = table.Column<double>(type: "float", nullable: false),
-                    UnitsAmount = table.Column<double>(type: "float", nullable: false),
-                    IsDefault = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_NutritionalValues", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_NutritionalValue_Food",
-                        column: x => x.FoodId,
-                        principalTable: "Foods",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_NutritionalValue_Units",
-                        column: x => x.UnitsId,
-                        principalTable: "Units",
                         principalColumn: "Id");
                 });
 
@@ -265,6 +226,26 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Foods",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
+                    UserId = table.Column<string>(type: "varchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: false),
+                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    Description = table.Column<string>(type: "varchar(1000)", unicode: false, maxLength: 1000, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Foods", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Product_AppUser",
+                        column: x => x.UserId,
+                        principalTable: "AppUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Menus",
                 columns: table => new
                 {
@@ -287,28 +268,100 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "Meals",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
+                    MealTypeId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
+                    UnitsId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
                     FoodId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
                     UserId = table.Column<string>(type: "varchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: false),
-                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    Description = table.Column<string>(type: "varchar(1000)", unicode: false, maxLength: 1000, nullable: false)
+                    Date = table.Column<DateTime>(type: "datetime", nullable: false),
+                    AmountEaten = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_Meals", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Product_AppUser",
+                        name: "FK_Meal_AppUser",
                         column: x => x.UserId,
                         principalTable: "AppUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Product_Food",
+                        name: "FK_Meal_Food",
                         column: x => x.FoodId,
                         principalTable: "Foods",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Meal_MealType",
+                        column: x => x.MealTypeId,
+                        principalTable: "MealTypes",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Meal_Units",
+                        column: x => x.UnitsId,
+                        principalTable: "Units",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NutritionalValues",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
+                    FoodId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
+                    UnitsId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
+                    Kcal = table.Column<double>(type: "float", nullable: false),
+                    Proteins = table.Column<double>(type: "float", nullable: false),
+                    Fats = table.Column<double>(type: "float", nullable: false),
+                    Carbohydrates = table.Column<double>(type: "float", nullable: false),
+                    UnitsAmount = table.Column<double>(type: "float", nullable: false),
+                    IsDefault = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NutritionalValues", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_NutritionalValue_Food",
+                        column: x => x.FoodId,
+                        principalTable: "Foods",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_NutritionalValue_Units",
+                        column: x => x.UnitsId,
+                        principalTable: "Units",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductsToBuy",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
+                    FoodId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
+                    UnitsId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
+                    UserId = table.Column<string>(type: "varchar(450)", nullable: false),
+                    UnitsAmount = table.Column<double>(type: "float", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime", nullable: false),
+                    IsBought = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductsToBuy", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductToBuy_AppUser",
+                        column: x => x.UserId,
+                        principalTable: "AppUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ProductToBuy_Food",
+                        column: x => x.FoodId,
+                        principalTable: "Foods",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ProductToBuy_Units",
+                        column: x => x.UnitsId,
+                        principalTable: "Units",
                         principalColumn: "Id");
                 });
 
@@ -319,11 +372,8 @@ namespace DAL.Migrations
                     Id = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
                     FoodId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
                     UserId = table.Column<string>(type: "varchar(450)", nullable: false),
-                    MealTypeId = table.Column<string>(type: "varchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: false),
-                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    CookingTime = table.Column<TimeSpan>(type: "time", nullable: false),
-                    Description = table.Column<string>(type: "varchar(1000)", unicode: false, maxLength: 1000, nullable: false)
+                    MealTypeId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
+                    CookingTime = table.Column<TimeSpan>(type: "time", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -342,93 +392,6 @@ namespace DAL.Migrations
                         name: "FK_Recipe_MealType",
                         column: x => x.MealTypeId,
                         principalTable: "MealTypes",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Meals",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
-                    MealTypeId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
-                    NutritionalValueId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
-                    UserId = table.Column<string>(type: "varchar(450)", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime", nullable: false),
-                    AmountEaten = table.Column<double>(type: "float", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Meals", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Meal_AppUser",
-                        column: x => x.UserId,
-                        principalTable: "AppUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Meal_MealType",
-                        column: x => x.MealTypeId,
-                        principalTable: "MealTypes",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Meal_NutritionalValue",
-                        column: x => x.NutritionalValueId,
-                        principalTable: "NutritionalValues",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MenuTemplates",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
-                    MenuId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
-                    UserId = table.Column<string>(type: "varchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MenuTemplates", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_MenuTemplate_AppUser",
-                        column: x => x.UserId,
-                        principalTable: "AppUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_MenuTemplate_Menu",
-                        column: x => x.MenuId,
-                        principalTable: "Menus",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProductsToBuy",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
-                    ProductId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
-                    UnitsId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
-                    UserId = table.Column<string>(type: "varchar(450)", nullable: false),
-                    UnitsAmount = table.Column<double>(type: "float", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime", nullable: false),
-                    IsBought = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductsToBuy", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProductToBuy_AppUser",
-                        column: x => x.UserId,
-                        principalTable: "AppUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_ProductToBuy_Product",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_ProductToBuy_Units",
-                        column: x => x.UnitsId,
-                        principalTable: "Units",
                         principalColumn: "Id");
                 });
 
@@ -456,7 +419,7 @@ namespace DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
-                    ProductId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
+                    FoodId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
                     RecipeId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
                     UnitsId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
                     UnitsAmount = table.Column<double>(type: "float", nullable: false)
@@ -465,9 +428,9 @@ namespace DAL.Migrations
                 {
                     table.PrimaryKey("PK_Ingredients", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Ingredient_Product",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
+                        name: "FK_Ingredient_Food",
+                        column: x => x.FoodId,
+                        principalTable: "Foods",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Ingredient_Recipe",
@@ -565,9 +528,14 @@ namespace DAL.Migrations
                 column: "RecipeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ingredients_ProductId",
+                name: "IX_Foods_UserId",
+                table: "Foods",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ingredients_FoodId",
                 table: "Ingredients",
-                column: "ProductId");
+                column: "FoodId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ingredients_RecipeId",
@@ -580,14 +548,19 @@ namespace DAL.Migrations
                 column: "UnitsId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Meals_FoodId",
+                table: "Meals",
+                column: "FoodId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Meals_MealTypeId",
                 table: "Meals",
                 column: "MealTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Meals_NutritionalValueId",
+                name: "IX_Meals_UnitsId",
                 table: "Meals",
-                column: "NutritionalValueId");
+                column: "UnitsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Meals_UserId",
@@ -615,16 +588,6 @@ namespace DAL.Migrations
                 column: "RecipeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MenuTemplates_MenuId",
-                table: "MenuTemplates",
-                column: "MenuId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MenuTemplates_UserId",
-                table: "MenuTemplates",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_NutritionalValues_FoodId",
                 table: "NutritionalValues",
                 column: "FoodId");
@@ -635,19 +598,9 @@ namespace DAL.Migrations
                 column: "UnitsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_FoodId",
-                table: "Products",
-                column: "FoodId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_UserId",
-                table: "Products",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductsToBuy_ProductId",
+                name: "IX_ProductsToBuy_FoodId",
                 table: "ProductsToBuy",
-                column: "ProductId");
+                column: "FoodId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductsToBuy_UnitsId",
@@ -706,7 +659,7 @@ namespace DAL.Migrations
                 name: "MenuStrings");
 
             migrationBuilder.DropTable(
-                name: "MenuTemplates");
+                name: "NutritionalValues");
 
             migrationBuilder.DropTable(
                 name: "ProductsToBuy");
@@ -715,28 +668,22 @@ namespace DAL.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "NutritionalValues");
+                name: "Menus");
 
             migrationBuilder.DropTable(
                 name: "Recipes");
 
             migrationBuilder.DropTable(
-                name: "Menus");
-
-            migrationBuilder.DropTable(
-                name: "Products");
-
-            migrationBuilder.DropTable(
                 name: "Units");
+
+            migrationBuilder.DropTable(
+                name: "Foods");
 
             migrationBuilder.DropTable(
                 name: "MealTypes");
 
             migrationBuilder.DropTable(
                 name: "AppUsers");
-
-            migrationBuilder.DropTable(
-                name: "Foods");
 
             migrationBuilder.DropTable(
                 name: "PhysicalActivityTypes");

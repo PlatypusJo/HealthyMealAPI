@@ -22,6 +22,5 @@ namespace DAL.Entities
 
         public virtual Food Food { get; set; } = null!;
         public virtual Units Units { get; set; } = null!;
-        public virtual ICollection<Meal> Meals { get; } = new List<Meal>();
     }
 }

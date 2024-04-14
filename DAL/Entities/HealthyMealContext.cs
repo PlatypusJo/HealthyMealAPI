@@ -40,8 +40,6 @@ namespace DAL.Entities
 
         public virtual DbSet<Food> Foods { get; set; }
 
-        public virtual DbSet<Product> Products { get; set; }
-
         public virtual DbSet<Recipe> Recipes { get; set; }
 
         public virtual DbSet<ProductToBuy> ProductsToBuy { get; set; }
@@ -53,8 +51,6 @@ namespace DAL.Entities
         public virtual DbSet<MenuString> MenuStrings { get; set; }
 
         public virtual DbSet<Menu> Menus { get; set; }
-
-        public virtual DbSet<MenuTemplate> MenuTemplates { get; set; }
 
         #endregion
 
@@ -118,16 +114,20 @@ namespace DAL.Entities
                     .HasMaxLength(450)
                     .IsUnicode(false);
 
-                entity.Property(e => e.NutritionalValueId)
+                entity.Property(e => e.FoodId)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UnitsId)
                     .HasMaxLength(450)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Date).HasColumnType("datetime");
 
-                entity.HasOne(d => d.NutritionalValue).WithMany(p => p.Meals)
-                    .HasForeignKey(d => d.NutritionalValueId)
+                entity.HasOne(d => d.Food).WithMany(p => p.Meals)
+                    .HasForeignKey(d => d.FoodId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Meal_NutritionalValue");
+                    .HasConstraintName("FK_Meal_Food");
 
                 entity.HasOne(d => d.MealType).WithMany(p => p.Meals)
                     .HasForeignKey(d => d.MealTypeId)
@@ -138,6 +138,11 @@ namespace DAL.Entities
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Meal_AppUser");
+
+                entity.HasOne(d => d.Units).WithMany(p => p.Meals)
+                    .HasForeignKey(d => d.UnitsId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Meal_Units");
             });
 
             modelBuilder.Entity<MealType>(entity =>
@@ -200,19 +205,6 @@ namespace DAL.Entities
                 entity.Property(e => e.Id)
                     .HasMaxLength(450)
                     .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<Product>(entity =>
-            {
-                entity.ToTable("Products");
-
-                entity.Property(e => e.Id)
-                    .HasMaxLength(450)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.FoodId)
-                    .HasMaxLength(450)
-                    .IsUnicode(false);
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(500)
@@ -222,12 +214,7 @@ namespace DAL.Entities
                     .HasMaxLength(1000)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.Food).WithMany(p => p.Products)
-                    .HasForeignKey(d => d.FoodId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Product_Food");
-
-                entity.HasOne(d => d.AppUser).WithMany(p => p.Products)
+                entity.HasOne(d => d.AppUser).WithMany(p => p.Foods)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Product_AppUser");
@@ -245,12 +232,8 @@ namespace DAL.Entities
                     .HasMaxLength(450)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Name)
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Description)
-                    .HasMaxLength(1000)
+                entity.Property(e => e.MealTypeId)
+                    .HasMaxLength(450)
                     .IsUnicode(false);
 
                 entity.Property(e => e.CookingTime).HasColumnType("time");
@@ -279,7 +262,7 @@ namespace DAL.Entities
                     .HasMaxLength(450)
                     .IsUnicode(false);
 
-                entity.Property(e => e.ProductId)
+                entity.Property(e => e.FoodId)
                     .HasMaxLength(450)
                     .IsUnicode(false);
 
@@ -289,10 +272,10 @@ namespace DAL.Entities
 
                 entity.Property(e => e.Date).HasColumnType("datetime");
 
-                entity.HasOne(d => d.Product).WithMany(p => p.ProductsToBuy)
-                    .HasForeignKey(d => d.ProductId)
+                entity.HasOne(d => d.Food).WithMany(p => p.ProductsToBuy)
+                    .HasForeignKey(d => d.FoodId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ProductToBuy_Product");
+                    .HasConstraintName("FK_ProductToBuy_Food");
 
                 entity.HasOne(d => d.Units).WithMany(p => p.ProductsToBuy)
                     .HasForeignKey(d => d.UnitsId)
@@ -313,7 +296,7 @@ namespace DAL.Entities
                     .HasMaxLength(450)
                     .IsUnicode(false);
 
-                entity.Property(e => e.ProductId)
+                entity.Property(e => e.FoodId)
                     .HasMaxLength(450)
                     .IsUnicode(false);
 
@@ -325,10 +308,10 @@ namespace DAL.Entities
                     .HasMaxLength(450)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.Product).WithMany(p => p.Ingredients)
-                    .HasForeignKey(d => d.ProductId)
+                entity.HasOne(d => d.Food).WithMany(p => p.Ingredients)
+                    .HasForeignKey(d => d.FoodId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Ingredient_Product");
+                    .HasConstraintName("FK_Ingredient_Food");
 
                 entity.HasOne(d => d.Recipe).WithMany(p => p.Ingredients)
                     .HasForeignKey(d => d.RecipeId)
@@ -413,33 +396,6 @@ namespace DAL.Entities
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Menu_AppUser");
-            });
-
-            modelBuilder.Entity<MenuTemplate>(entity =>
-            {
-                entity.ToTable("MenuTemplates");
-
-                entity.Property(e => e.Id)
-                    .HasMaxLength(450)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.MenuId)
-                    .HasMaxLength(450)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Name)
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
-
-                entity.HasOne(d => d.Menu).WithMany(p => p.MenuTemplates)
-                    .HasForeignKey(d => d.MenuId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_MenuTemplate_Menu");
-
-                entity.HasOne(d => d.AppUser).WithMany(p => p.MenuTemplates)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_MenuTemplate_AppUser");
             });
 
             modelBuilder.Entity<AppUser>(entity =>

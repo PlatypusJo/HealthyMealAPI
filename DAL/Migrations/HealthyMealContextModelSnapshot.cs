@@ -49,6 +49,9 @@ namespace DAL.Migrations
                     b.Property<double>("Height")
                         .HasColumnType("float");
 
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<double>("KcalAmountGoal")
                         .HasColumnType("float");
 
@@ -156,7 +159,28 @@ namespace DAL.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(450)");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(1000)");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Foods", (string)null);
                 });
@@ -168,7 +192,7 @@ namespace DAL.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(450)");
 
-                    b.Property<string>("ProductId")
+                    b.Property<string>("FoodId")
                         .IsRequired()
                         .HasMaxLength(450)
                         .IsUnicode(false)
@@ -191,7 +215,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("FoodId");
 
                     b.HasIndex("RecipeId");
 
@@ -213,13 +237,19 @@ namespace DAL.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime");
 
+                    b.Property<string>("FoodId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(450)");
+
                     b.Property<string>("MealTypeId")
                         .IsRequired()
                         .HasMaxLength(450)
                         .IsUnicode(false)
                         .HasColumnType("varchar(450)");
 
-                    b.Property<string>("NutritionalValueId")
+                    b.Property<string>("UnitsId")
                         .IsRequired()
                         .HasMaxLength(450)
                         .IsUnicode(false)
@@ -231,9 +261,11 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FoodId");
+
                     b.HasIndex("MealTypeId");
 
-                    b.HasIndex("NutritionalValueId");
+                    b.HasIndex("UnitsId");
 
                     b.HasIndex("UserId");
 
@@ -330,38 +362,6 @@ namespace DAL.Migrations
                     b.ToTable("MenuStrings", (string)null);
                 });
 
-            modelBuilder.Entity("DAL.Entities.MenuTemplate", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(450)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(450)");
-
-                    b.Property<string>("MenuId")
-                        .IsRequired()
-                        .HasMaxLength(450)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(450)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MenuId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("MenuTemplates", (string)null);
-                });
-
             modelBuilder.Entity("DAL.Entities.NutritionalValue", b =>
                 {
                     b.Property<string>("Id")
@@ -415,7 +415,7 @@ namespace DAL.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(450)");
 
-                    b.Property<double>("CoeffValue")
+                    b.Property<double>("ActivityFactor")
                         .HasColumnType("float");
 
                     b.Property<string>("Description")
@@ -435,47 +435,6 @@ namespace DAL.Migrations
                     b.ToTable("PhysicalActivityTypes", (string)null);
                 });
 
-            modelBuilder.Entity("DAL.Entities.Product", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(450)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(450)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(1000)");
-
-                    b.Property<string>("FoodId")
-                        .IsRequired()
-                        .HasMaxLength(450)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(450)");
-
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FoodId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Products", (string)null);
-                });
-
             modelBuilder.Entity("DAL.Entities.ProductToBuy", b =>
                 {
                     b.Property<string>("Id")
@@ -486,14 +445,14 @@ namespace DAL.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime");
 
-                    b.Property<bool>("IsBought")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ProductId")
+                    b.Property<string>("FoodId")
                         .IsRequired()
                         .HasMaxLength(450)
                         .IsUnicode(false)
                         .HasColumnType("varchar(450)");
+
+                    b.Property<bool>("IsBought")
+                        .HasColumnType("bit");
 
                     b.Property<double>("UnitsAmount")
                         .HasColumnType("float");
@@ -510,7 +469,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("FoodId");
 
                     b.HasIndex("UnitsId");
 
@@ -529,30 +488,17 @@ namespace DAL.Migrations
                     b.Property<TimeSpan>("CookingTime")
                         .HasColumnType("time");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(1000)");
-
                     b.Property<string>("FoodId")
                         .IsRequired()
                         .HasMaxLength(450)
                         .IsUnicode(false)
                         .HasColumnType("varchar(450)");
 
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<string>("MealTypeId")
                         .IsRequired()
-                        .HasColumnType("varchar(450)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(500)
+                        .HasMaxLength(450)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(500)");
+                        .HasColumnType("varchar(450)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -768,13 +714,24 @@ namespace DAL.Migrations
                     b.Navigation("Recipe");
                 });
 
+            modelBuilder.Entity("DAL.Entities.Food", b =>
+                {
+                    b.HasOne("DAL.Entities.AppUser", "AppUser")
+                        .WithMany("Foods")
+                        .HasForeignKey("UserId")
+                        .IsRequired()
+                        .HasConstraintName("FK_Product_AppUser");
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("DAL.Entities.Ingredient", b =>
                 {
-                    b.HasOne("DAL.Entities.Product", "Product")
+                    b.HasOne("DAL.Entities.Food", "Food")
                         .WithMany("Ingredients")
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("FoodId")
                         .IsRequired()
-                        .HasConstraintName("FK_Ingredient_Product");
+                        .HasConstraintName("FK_Ingredient_Food");
 
                     b.HasOne("DAL.Entities.Recipe", "Recipe")
                         .WithMany("Ingredients")
@@ -788,7 +745,7 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_Ingredient_Units");
 
-                    b.Navigation("Product");
+                    b.Navigation("Food");
 
                     b.Navigation("Recipe");
 
@@ -797,17 +754,23 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.Meal", b =>
                 {
+                    b.HasOne("DAL.Entities.Food", "Food")
+                        .WithMany("Meals")
+                        .HasForeignKey("FoodId")
+                        .IsRequired()
+                        .HasConstraintName("FK_Meal_Food");
+
                     b.HasOne("DAL.Entities.MealType", "MealType")
                         .WithMany("Meals")
                         .HasForeignKey("MealTypeId")
                         .IsRequired()
                         .HasConstraintName("FK_Meal_MealType");
 
-                    b.HasOne("DAL.Entities.NutritionalValue", "NutritionalValue")
+                    b.HasOne("DAL.Entities.Units", "Units")
                         .WithMany("Meals")
-                        .HasForeignKey("NutritionalValueId")
+                        .HasForeignKey("UnitsId")
                         .IsRequired()
-                        .HasConstraintName("FK_Meal_NutritionalValue");
+                        .HasConstraintName("FK_Meal_Units");
 
                     b.HasOne("DAL.Entities.AppUser", "AppUser")
                         .WithMany("Meals")
@@ -817,9 +780,11 @@ namespace DAL.Migrations
 
                     b.Navigation("AppUser");
 
+                    b.Navigation("Food");
+
                     b.Navigation("MealType");
 
-                    b.Navigation("NutritionalValue");
+                    b.Navigation("Units");
                 });
 
             modelBuilder.Entity("DAL.Entities.Menu", b =>
@@ -860,25 +825,6 @@ namespace DAL.Migrations
                     b.Navigation("Recipe");
                 });
 
-            modelBuilder.Entity("DAL.Entities.MenuTemplate", b =>
-                {
-                    b.HasOne("DAL.Entities.Menu", "Menu")
-                        .WithMany("MenuTemplates")
-                        .HasForeignKey("MenuId")
-                        .IsRequired()
-                        .HasConstraintName("FK_MenuTemplate_Menu");
-
-                    b.HasOne("DAL.Entities.AppUser", "AppUser")
-                        .WithMany("MenuTemplates")
-                        .HasForeignKey("UserId")
-                        .IsRequired()
-                        .HasConstraintName("FK_MenuTemplate_AppUser");
-
-                    b.Navigation("AppUser");
-
-                    b.Navigation("Menu");
-                });
-
             modelBuilder.Entity("DAL.Entities.NutritionalValue", b =>
                 {
                     b.HasOne("DAL.Entities.Food", "Food")
@@ -898,32 +844,13 @@ namespace DAL.Migrations
                     b.Navigation("Units");
                 });
 
-            modelBuilder.Entity("DAL.Entities.Product", b =>
-                {
-                    b.HasOne("DAL.Entities.Food", "Food")
-                        .WithMany("Products")
-                        .HasForeignKey("FoodId")
-                        .IsRequired()
-                        .HasConstraintName("FK_Product_Food");
-
-                    b.HasOne("DAL.Entities.AppUser", "AppUser")
-                        .WithMany("Products")
-                        .HasForeignKey("UserId")
-                        .IsRequired()
-                        .HasConstraintName("FK_Product_AppUser");
-
-                    b.Navigation("AppUser");
-
-                    b.Navigation("Food");
-                });
-
             modelBuilder.Entity("DAL.Entities.ProductToBuy", b =>
                 {
-                    b.HasOne("DAL.Entities.Product", "Product")
+                    b.HasOne("DAL.Entities.Food", "Food")
                         .WithMany("ProductsToBuy")
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("FoodId")
                         .IsRequired()
-                        .HasConstraintName("FK_ProductToBuy_Product");
+                        .HasConstraintName("FK_ProductToBuy_Food");
 
                     b.HasOne("DAL.Entities.Units", "Units")
                         .WithMany("ProductsToBuy")
@@ -939,7 +866,7 @@ namespace DAL.Migrations
 
                     b.Navigation("AppUser");
 
-                    b.Navigation("Product");
+                    b.Navigation("Food");
 
                     b.Navigation("Units");
                 });
@@ -1024,13 +951,11 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.AppUser", b =>
                 {
+                    b.Navigation("Foods");
+
                     b.Navigation("Meals");
 
-                    b.Navigation("MenuTemplates");
-
                     b.Navigation("Menus");
-
-                    b.Navigation("Products");
 
                     b.Navigation("ProductsToBuy");
 
@@ -1039,9 +964,13 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.Food", b =>
                 {
+                    b.Navigation("Ingredients");
+
+                    b.Navigation("Meals");
+
                     b.Navigation("NutritionalValues");
 
-                    b.Navigation("Products");
+                    b.Navigation("ProductsToBuy");
 
                     b.Navigation("Recipes");
                 });
@@ -1058,25 +987,11 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Menu", b =>
                 {
                     b.Navigation("MenuStrings");
-
-                    b.Navigation("MenuTemplates");
-                });
-
-            modelBuilder.Entity("DAL.Entities.NutritionalValue", b =>
-                {
-                    b.Navigation("Meals");
                 });
 
             modelBuilder.Entity("DAL.Entities.PhysicalActivityType", b =>
                 {
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("DAL.Entities.Product", b =>
-                {
-                    b.Navigation("Ingredients");
-
-                    b.Navigation("ProductsToBuy");
                 });
 
             modelBuilder.Entity("DAL.Entities.Recipe", b =>
@@ -1096,6 +1011,8 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Units", b =>
                 {
                     b.Navigation("Ingredients");
+
+                    b.Navigation("Meals");
 
                     b.Navigation("NutritionalValues");
 
