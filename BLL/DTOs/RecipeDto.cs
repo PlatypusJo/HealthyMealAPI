@@ -17,16 +17,6 @@ namespace BLL.DTOs
             UserId = recipe.UserId;
             MealTypeId = recipe.MealTypeId;
             CookingTime = recipe.CookingTime;
-            MealTypeName = recipe.MealType.Name;
-            Name = recipe.Food.Name;
-            Description = recipe.Food.Description;
-            Image = recipe.Food.Image;
-
-            NutritionalValue nutritionalValue = recipe.Food.NutritionalValues.First(n => n.IsDefault == true);
-            Kcal = nutritionalValue.Kcal;
-            Proteins = nutritionalValue.Proteins;
-            Fats = nutritionalValue.Fats;
-            Carbohydrates = nutritionalValue.Carbohydrates;
         }
 
         public string Id { get; set; } = null!;

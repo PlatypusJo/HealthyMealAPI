@@ -19,8 +19,6 @@ namespace BLL.DTOs
             UserId = meal.UserId;
             Date = meal.Date;
             AmountEaten = meal.AmountEaten;
-            UnitsName = meal.Units.Name;
-            FoodName = meal.Food.Name;
         }
 
         public string Id { get; set; } = null!;

@@ -17,14 +17,6 @@ namespace BLL.DTOs
             Name = food.Name;
             Image = food.Image;
             Description = food.Description;
-
-            NutritionalValue nutritionalValue = food.NutritionalValues.First(n => n.IsDefault == true);
-            DefaultUnitsAmount = nutritionalValue.UnitsAmount;
-            DefaultUnitsName = nutritionalValue.Units.Name;
-            Kcal = nutritionalValue.Kcal;
-            Proteins = nutritionalValue.Proteins;
-            Fats = nutritionalValue.Fats;
-            Carbohydrates = nutritionalValue.Carbohydrates;
         }
 
         public string Id { get; set; } = null!;

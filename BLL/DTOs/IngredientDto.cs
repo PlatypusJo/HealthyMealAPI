@@ -17,8 +17,6 @@ namespace BLL.DTOs
             RecipeId = ingredient.RecipeId;
             UnitsId = ingredient.UnitsId;
             UnitsAmount = ingredient.UnitsAmount;
-            Name = ingredient.Food.Name;
-            UnitsName = ingredient.Units.Name;
         }
 
         public string Id { get; set; } = null!;

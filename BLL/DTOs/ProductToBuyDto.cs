@@ -19,8 +19,6 @@ namespace BLL.DTOs
             UnitsAmount = productToBuy.UnitsAmount;
             Date = productToBuy.Date;
             IsBought = productToBuy.IsBought;
-            UnitsName = productToBuy.Units.Name;
-            FoodName = productToBuy.Food.Name;
         }
 
         public string Id { get; set; } = null!;
