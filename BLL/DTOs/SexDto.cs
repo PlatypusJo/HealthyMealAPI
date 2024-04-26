@@ -1,19 +1,24 @@
-﻿using System;
+﻿using DAL.Entities;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Entities
+namespace BLL.DTOs
 {
-    public partial class Sex
+    public class SexDTO
     {
-        [Key]
+        public SexDTO() { }
+        public SexDTO(Sex sex) 
+        { 
+            Id = sex.Id;
+            Name = sex.Name;
+            Coeff = sex.Coeff;
+        }
+
         public string Id { get; set; } = null!;
         public string Name { get; set; } = null!;
         public double Coeff { get; set; }
-
-        public virtual ICollection<AppUser> Users { get; } = new List<AppUser>();
     }
 }

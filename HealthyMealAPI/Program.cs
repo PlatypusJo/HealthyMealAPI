@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using System.Text.Json.Serialization;
 using DAL.Entities;
-using HealthyMealAPI.Data;
+using DAL.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -67,7 +67,7 @@ using (var scope = app.Services.CreateScope())
     var restaurantDeliveryContext =
     scope.ServiceProvider.GetRequiredService<HealthyMealContext>();
     //await IdentitySeed.CreateUserRoles(scope.ServiceProvider);
-    //await DbInitializer.Initialize(restaurantDeliveryContext);
+    //await DbInitializer.CreateUserRoles(restaurantDeliveryContext);
 
 }
 
