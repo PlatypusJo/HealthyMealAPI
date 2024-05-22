@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace BLL.DTOs
 {
-    public class CookingStepDTO
+    public class CookingStepDto
     {
-        public CookingStepDTO() { }
-        public CookingStepDTO(CookingStep cookingStep) 
+        public CookingStepDto() { }
+        public CookingStepDto(CookingStep cookingStep) 
         { 
             Id = cookingStep.Id;
             RecipeId = cookingStep.RecipeId;

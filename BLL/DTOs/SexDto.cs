@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace BLL.DTOs
 {
-    public class SexDTO
+    public class SexDto
     {
-        public SexDTO() { }
-        public SexDTO(Sex sex) 
+        public SexDto() { }
+        public SexDto(Sex sex) 
         { 
             Id = sex.Id;
             Name = sex.Name;

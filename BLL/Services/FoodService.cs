@@ -94,6 +94,16 @@ namespace BLL.Services
         {
             List<Food> items = await _unitOfWork.Foods.GetAll();
 
+            List<Recipe> recipes = [];
+            recipes = await _unitOfWork.Recipes.GetAll();
+            List<Food> recipesInFood = [];
+            for (int i = 0; i < recipes.Count; i++)
+            {
+                Food food = items.Find(f => f.Id == recipes[i].FoodId);
+                recipesInFood.Add(food);
+            }
+            items = items.Except(recipesInFood).ToList();
+
             List<FoodDto> result = items.Select(x => new FoodDto(x)).ToList();
 
             List<Units> units = await _unitOfWork.Units.GetAll();
@@ -119,7 +129,10 @@ namespace BLL.Services
         {
             Food food = await _unitOfWork.Foods.GetById(id);
 
-            FoodDto? result = food is null ? new FoodDto() : new FoodDto(food);
+            FoodDto? result = food is null ? null : new FoodDto(food);
+
+            if (result is null)
+                return result;
 
             List<Units> units = await _unitOfWork.Units.GetAll();
             List<NutritionalValue> nutritionalValues = await _unitOfWork.NutritionalValues.GetAll();
