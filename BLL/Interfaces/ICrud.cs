@@ -19,13 +19,13 @@ namespace BLL.Interfaces
         ///     Возращает true при успешном удалении экзмпляра сущности T,
         ///     иначе false
         /// </returns>
-        Task<bool> Delete(int id);
+        Task<bool> Delete(string id);
 
         /// <returns>
         ///     Возращает true, если экземпляр сущности с указанным id существует
         ///     иначе false
         /// </returns>
-        Task<bool> Exists(int id);
+        Task<bool> Exists(string id);
 
         Task<List<T>> GetAll();
 
@@ -33,7 +33,7 @@ namespace BLL.Interfaces
         ///     Возвращает экземпляр сущности,
         ///     если он найден по указанному id, иначе null
         /// </returns>
-        Task<T> GetById(int id);
+        Task<T> GetById(string id);
 
         /// <returns>
         ///     Возращает true при успешном обновлении экземпляра сущности,
