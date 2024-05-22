@@ -21,7 +21,7 @@ namespace BLL.Services
 
         public async Task<bool> Create(FoodDto entityDto)
         {
-            Food food = new()
+            Food item = new()
             { 
                 Id = entityDto.Id,
                 Name = entityDto.Name,
@@ -30,7 +30,7 @@ namespace BLL.Services
                 Description = entityDto.Description,
             };
 
-            await _unitOfWork.Foods.Create(food);
+            await _unitOfWork.Foods.Create(item);
             return await SaveAsync();
         }
 
@@ -109,17 +109,17 @@ namespace BLL.Services
             List<Units> units = await _unitOfWork.Units.GetAll();
             List<NutritionalValue> nutritionalValues = await _unitOfWork.NutritionalValues.GetAll();
 
-            foreach (FoodDto foodDto in result)
+            foreach (FoodDto item in result)
             {
-                NutritionalValue nutritionalValueDefault = nutritionalValues.Find(x => x.FoodId == foodDto.Id && x.IsDefault);
+                NutritionalValue nutritionalValueDefault = nutritionalValues.Find(x => x.FoodId == item.Id && x.IsDefault);
                 Units unitsDefault = units.Find(x => x.Id == nutritionalValueDefault.UnitsId);
 
-                foodDto.DefaultUnitsName = unitsDefault.Name;
-                foodDto.DefaultUnitsAmount = nutritionalValueDefault.UnitsAmount;
-                foodDto.Kcal = nutritionalValueDefault.Kcal;
-                foodDto.Proteins = nutritionalValueDefault.Proteins;
-                foodDto.Fats = nutritionalValueDefault.Fats;
-                foodDto.Carbohydrates = nutritionalValueDefault.Carbohydrates;
+                item.DefaultUnitsName = unitsDefault.Name;
+                item.DefaultUnitsAmount = nutritionalValueDefault.UnitsAmount;
+                item.Kcal = nutritionalValueDefault.Kcal;
+                item.Proteins = nutritionalValueDefault.Proteins;
+                item.Fats = nutritionalValueDefault.Fats;
+                item.Carbohydrates = nutritionalValueDefault.Carbohydrates;
             }
 
             return result;
@@ -127,9 +127,9 @@ namespace BLL.Services
 
         public async Task<FoodDto> GetById(string id)
         {
-            Food food = await _unitOfWork.Foods.GetById(id);
+            Food item = await _unitOfWork.Foods.GetById(id);
 
-            FoodDto? result = food is null ? null : new FoodDto(food);
+            FoodDto result = item is null ? null : new FoodDto(item);
 
             if (result is null)
                 return result;
@@ -155,15 +155,15 @@ namespace BLL.Services
             if (!await _unitOfWork.Foods.Exists(entityDto.Id))
                 return false;
 
-            Food food = await _unitOfWork.Foods.GetById(entityDto.Id);
+            Food item = await _unitOfWork.Foods.GetById(entityDto.Id);
 
-            food.Id = entityDto.Id;
-            food.Name = entityDto.Name;
-            food.UserId = entityDto.UserId;
-            food.Image = entityDto.Image;
-            food.Description = entityDto.Description;
+            item.Id = entityDto.Id;
+            item.Name = entityDto.Name;
+            item.UserId = entityDto.UserId;
+            item.Image = entityDto.Image;
+            item.Description = entityDto.Description;
 
-            await _unitOfWork.Foods.Update(food);
+            await _unitOfWork.Foods.Update(item);
             return await SaveAsync();
         }
 

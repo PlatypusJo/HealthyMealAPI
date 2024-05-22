@@ -20,14 +20,14 @@ namespace BLL.Services
 
         public async Task<bool> Create(SexDto entityDto)
         {
-            Sex sex = new()
+            Sex item = new()
             {
                 Id = entityDto.Id,
                 Name = entityDto.Name,
                 Coeff = entityDto.Coeff,
             };
 
-            await _unitOfWork.Sexes.Create(sex);
+            await _unitOfWork.Sexes.Create(item);
             return await SaveAsync();
         }
 
@@ -64,13 +64,13 @@ namespace BLL.Services
             if (!await _unitOfWork.Sexes.Exists(entityDto.Id))
                 return false;
 
-            Sex sex = await _unitOfWork.Sexes.GetById(entityDto.Id);
+            Sex item = await _unitOfWork.Sexes.GetById(entityDto.Id);
 
-            sex.Id = entityDto.Id;
-            sex.Name = entityDto.Name;
-            sex.Coeff = entityDto.Coeff;
+            item.Id = entityDto.Id;
+            item.Name = entityDto.Name;
+            item.Coeff = entityDto.Coeff;
 
-            await _unitOfWork.Sexes.Update(sex);
+            await _unitOfWork.Sexes.Update(item);
             return await SaveAsync();
         }
 

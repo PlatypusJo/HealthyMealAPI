@@ -19,14 +19,14 @@ namespace BLL.Services
 
         public async Task<bool> Create(MealTypeDto entityDto)
         {
-            MealType mealType = new()
+            MealType item = new()
             {
                 Id = entityDto.Id,
                 Name = entityDto.Name,
                 Icon = entityDto.Icon,
             };
 
-            await _unitOfWork.MealTypes.Create(mealType);
+            await _unitOfWork.MealTypes.Create(item);
             return await SaveAsync();
         }
 
@@ -63,13 +63,13 @@ namespace BLL.Services
             if (!await _unitOfWork.MealTypes.Exists(entityDto.Id))
                 return false;
 
-            MealType mealType = await _unitOfWork.MealTypes.GetById(entityDto.Id);
+            MealType item = await _unitOfWork.MealTypes.GetById(entityDto.Id);
 
-            mealType.Id = entityDto.Id;
-            mealType.Name = entityDto.Name;
-            mealType.Icon = entityDto.Icon;
+            item.Id = entityDto.Id;
+            item.Name = entityDto.Name;
+            item.Icon = entityDto.Icon;
 
-            await _unitOfWork.MealTypes.Update(mealType);
+            await _unitOfWork.MealTypes.Update(item);
             return await SaveAsync();
         }
 

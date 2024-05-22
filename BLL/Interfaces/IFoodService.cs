@@ -17,7 +17,7 @@ namespace BLL.Interfaces
         /// <param name="curPage"> Текущая страница. </param>
         /// <param name="searchBarText"> Текст в поисковой строке. </param>
         /// <param name="isUserOnly"> Признак страницы только пользовательских продуктов. </param>
-        /// <returns></returns>
+        /// <returns> Список еды для страницы и общее количество найденной еды. </returns>
         Task<(List<FoodDto> foods, int countFound)> GetFoodPage(string userId, int pageSize, int curPage, string searchBarText, bool isUserOnly);
     }
 }

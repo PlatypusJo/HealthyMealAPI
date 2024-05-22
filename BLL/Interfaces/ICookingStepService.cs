@@ -9,5 +9,11 @@ namespace BLL.Interfaces
 {
     public interface ICookingStepService : ICrud<CookingStepDto>
     {
+        /// <summary>
+        /// Получить шаги приготовления рецепта.
+        /// </summary>
+        /// <param name="recipeId"> Идентификатор рецепта. </param>
+        /// <returns> Список шагов приготовления. </returns>
+        Task<List<CookingStepDto>> GetRecipeSteps(string recipeId);
     }
 }

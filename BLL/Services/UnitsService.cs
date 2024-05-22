@@ -19,13 +19,13 @@ namespace BLL.Services
 
         public async Task<bool> Create(UnitsDto entityDto)
         {
-            Units units = new()
+            Units item = new()
             {
                 Id = entityDto.Id,
                 Name = entityDto.Name
             };
 
-            await _unitOfWork.Units.Create(units);
+            await _unitOfWork.Units.Create(item);
             return await SaveAsync();
         }
 
@@ -85,12 +85,12 @@ namespace BLL.Services
             if (!await _unitOfWork.Units.Exists(entityDto.Id))
                 return false;
 
-            Units units = await _unitOfWork.Units.GetById(entityDto.Id);
+            Units item = await _unitOfWork.Units.GetById(entityDto.Id);
 
-            units.Id = entityDto.Id;
-            units.Name = entityDto.Name;
+            item.Id = entityDto.Id;
+            item.Name = entityDto.Name;
 
-            await _unitOfWork.Units.Update(units);
+            await _unitOfWork.Units.Update(item);
             return await SaveAsync();
         }
 

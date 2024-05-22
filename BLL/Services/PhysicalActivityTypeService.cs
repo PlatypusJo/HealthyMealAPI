@@ -76,7 +76,5 @@ namespace BLL.Services
         }
 
         #endregion
-
-        
     }
 }
