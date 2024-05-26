@@ -77,7 +77,12 @@ namespace BLL.Services
 
                 foreach (MenuString menuString in menuStrings.Where(m => m.RecipeId == recipe.Id).ToList())
                 {
+                    string menuId = menuString.MenuId;
+
                     await _unitOfWork.MenuStrings.Delete(menuString.Id);
+
+                    if (menuStrings.Count(x => x.MenuId == menuId) < 0)
+                        await _unitOfWork.Menus.Delete(menuId);  
                 }
 
                 await _unitOfWork.Recipes.Delete(recipe.Id);

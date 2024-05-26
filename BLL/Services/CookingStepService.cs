@@ -33,7 +33,7 @@ namespace BLL.Services
 
         public async Task<bool> Delete(string id)
         {
-            if (!await _unitOfWork.Sexes.Exists(id))
+            if (!await _unitOfWork.CookingSteps.Exists(id))
                 return false;
 
             await _unitOfWork.CookingSteps.Delete(id);
