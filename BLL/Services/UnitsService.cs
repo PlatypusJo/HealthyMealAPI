@@ -78,7 +78,7 @@ namespace BLL.Services
             Units item = await _unitOfWork.Units.GetById(id);
 
             return item is null ? null : new(item);
-        }
+        }    
 
         public async Task<bool> Update(UnitsDto entityDto)
         {
@@ -95,5 +95,21 @@ namespace BLL.Services
         }
 
         #endregion
+
+        public async Task<List<UnitsDto>> GetFoodUnits(string foodId)
+        {
+            List<NutritionalValue> nutritionalValues = await _unitOfWork.NutritionalValues.GetAll();
+
+            nutritionalValues = nutritionalValues.Where(x => x.FoodId == foodId).ToList();
+
+            List<UnitsDto> result = [];
+            foreach (NutritionalValue nutritionalValue in nutritionalValues)
+            {
+                Units units = await _unitOfWork.Units.GetById(nutritionalValue.UnitsId);
+                result.Add(new(units));
+            }
+
+            return result;
+        }
     }
 }

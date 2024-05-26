@@ -9,5 +9,6 @@ namespace BLL.Interfaces
 {
     public interface IUnitsService : ICrud<UnitsDto>
     {
+        Task<List<UnitsDto>> GetFoodUnits(string foodId);
     }
 }
